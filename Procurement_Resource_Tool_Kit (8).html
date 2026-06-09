@@ -1,0 +1,2056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procurement Resource * Tool-Kit</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root {
+    /* Matched exactly to Procurement Resource Analytical Tool palette */
+    --bg:       #f5f2ec;
+    --surface:  #fffef9;
+    --surface2: #eeeae0;
+    --ink:      #1a1610;
+    --ink2:     #6b6355;
+    --ink3:     #a09880;
+    --accent:   #c8390a;
+    --accent2:  #2855a0;
+    --gold:     #d4a820;
+    --border:   #d8d2c4;
+    --shadow:   rgba(26,22,16,0.10);
+    --r: 6px;
+
+    /* Legacy aliases — keep all existing selectors working without rewriting
+       each one. Old IMARC Bucket tokens now point at the Procurement palette. */
+    --ink1:     var(--ink);
+    --paper:    var(--bg);
+    --paper-2:  var(--surface2);
+    --line:     var(--border);
+    --accent-1: var(--accent);
+    --accent-2: var(--accent2);
+    --accent-3: #1a7a4a;
+    --accent-4: var(--gold);
+    --accent-5: #7b2d8b;
+    --accent-6: #1a7a7a;
+    --accent-7: #8b4513;
+    --accent-8: #b5294e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  /* ─────────── MOTIVATIONAL QUOTE BAR ─────────── */
+  .quote-bar {
+    background: var(--ink1);
+    color: var(--paper);
+    padding: 11px 24px;
+    font-size: 13px;
+    text-align: center;
+    border-bottom: 3px solid var(--accent-4);
+    position: relative;
+    overflow: hidden;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .quote-text {
+    font-style: italic;
+    letter-spacing: 0.3px;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    max-width: 920px;
+  }
+  .quote-text.fading {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  .quote-author {
+    color: var(--accent-4);
+    font-style: normal;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+
+  /* ─────────── HEADER (Procurement Resource masthead) ─────────── */
+  .header {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 28px 40px 24px;
+    text-align: center;
+    border-bottom: 4px solid var(--accent);
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+  .brand-mark {
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1.5px;
+    padding: 8px 14px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .brand-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(28px, 5vw, 44px);
+    letter-spacing: 3px;
+    line-height: 1;
+    color: #fff;
+    font-weight: 400;
+  }
+  .brand-text .star {
+    color: var(--gold);
+    margin: 0 6px;
+  }
+  .tagline {
+    color: var(--ink3);
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+  }
+  .tagline-2 {
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-top: 16px;
+    padding: 6px 16px;
+    display: inline-block;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .tagline-3 {
+    color: var(--ink3);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+  }
+  .tagline-3 .by { color: var(--gold); font-weight: 600; }
+
+  /* ─────────── STATS STRIP ─────────── */
+  .stats-strip {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    background: var(--ink1);
+    color: var(--paper);
+    padding: 14px 0;
+    flex-wrap: wrap;
+  }
+  .stat {
+    padding: 0 26px;
+    text-align: center;
+    border-right: 1px solid #2c2c2c;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--accent-4);
+    letter-spacing: -0.5px;
+  }
+  .stat-lbl {
+    font-size: 10px;
+    color: #aaa;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+
+  /* ─────────── MAIN ─────────── */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
+  }
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-num {
+    background: transparent;
+    color: var(--accent);
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    font-size: 32px;
+    width: auto; height: auto;
+    border-radius: 0;
+    display: inline;
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+  .section-head h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: var(--ink);
+    text-transform: uppercase;
+    font-weight: 400;
+    line-height: 1.1;
+  }
+  .section-head .sub {
+    color: var(--ink3);
+    font-size: 11px;
+    margin-left: auto;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+  }
+
+  /* ─────────── TOOL GRID ─────────── */
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 18px;
+    margin-bottom: 40px;
+  }
+  .tool-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px 20px 18px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--card-color, var(--accent-1));
+  }
+  .tool-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.10);
+    border-color: var(--card-color, var(--accent-1));
+  }
+  .tool-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  .tool-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--ink1);
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+  }
+  .tool-desc {
+    font-size: 12.5px;
+    color: var(--ink3);
+    margin-bottom: 14px;
+    flex: 1;
+    line-height: 1.5;
+  }
+  .tool-meta {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 7px;
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    border-radius: 3px;
+  }
+  .badge.live { background: #dcfce7; color: #166534; }
+  .badge.beta { background: #fef3c7; color: #854d0e; }
+  .badge.soon { background: #f3f4f6; color: #6b7280; }
+  .badge.maint { background: #fee2e2; color: #991b1b; }
+  .badge.cat   { background: var(--paper-2); color: var(--ink2); border: 1px solid var(--line); }
+  .tool-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .btn {
+    flex: 1;
+    padding: 9px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: filter 0.15s ease, transform 0.1s;
+    letter-spacing: 0.4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  .btn-primary {
+    background: var(--card-color, var(--accent-1));
+    color: #fff;
+  }
+  .btn-primary:hover { filter: brightness(1.10); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink2);
+    border: 1px solid var(--line);
+    flex: 0 0 auto;
+    padding: 9px 11px;
+  }
+  .btn-secondary:hover { background: var(--paper-2); }
+  .btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* ─────────── SOURCE LINKS (per-user bookmarks) ─────────── */
+  .src-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .src-search {
+    flex: 1;
+    min-width: 180px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    font-size: 13px;
+    background: #fff;
+    font-family: inherit;
+    color: var(--ink1);
+  }
+  .src-search:focus { outline: 2px solid var(--accent-2); outline-offset: -1px; }
+  .src-cat-filter {
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    font-size: 13px;
+    background: #fff;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--ink1);
+  }
+  .src-add-btn {
+    background: var(--ink1);
+    color: var(--accent-4);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: inherit;
+  }
+  .src-add-btn:hover { filter: brightness(1.15); }
+
+  .src-empty-hint {
+    text-align: center;
+    padding: 36px 24px;
+    background: var(--paper-2);
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    color: var(--ink3);
+    font-size: 13px;
+    line-height: 1.55;
+    margin-bottom: 30px;
+  }
+  .src-empty-hint .em-ico { font-size: 36px; margin-bottom: 6px; opacity: 0.6; }
+
+  .src-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+  .src-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 14px 14px 12px;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .src-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.07);
+    border-color: var(--accent-2);
+  }
+  .src-card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .src-favicon {
+    width: 36px;
+    height: 36px;
+    border-radius: 7px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .src-favicon img { width: 28px; height: 28px; }
+  .src-favicon .fallback {
+    font-size: 18px;
+    color: var(--ink3);
+  }
+  .src-card-title {
+    flex: 1;
+    min-width: 0;
+  }
+  .src-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink1);
+    line-height: 1.3;
+    margin-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+  }
+  .src-domain {
+    font-size: 10.5px;
+    color: var(--ink3);
+    letter-spacing: 0.3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .src-notes {
+    font-size: 12px;
+    color: var(--ink3);
+    line-height: 1.5;
+    margin-bottom: 8px;
+    flex: 1;
+    /* Clamp to 2 lines so cards stay uniform height */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .src-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px dashed var(--line);
+    padding-top: 7px;
+    font-size: 10.5px;
+  }
+  .src-cat-pill {
+    background: var(--paper-2);
+    color: var(--ink2);
+    border: 1px solid var(--line);
+    padding: 1px 7px;
+    border-radius: 3px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  .src-card-actions {
+    display: flex;
+    gap: 4px;
+  }
+  .src-action {
+    background: transparent;
+    border: 1px solid var(--line);
+    width: 24px; height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--ink3);
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    text-decoration: none;
+  }
+  .src-action:hover { background: var(--paper-2); color: var(--ink1); }
+  .src-action.del:hover { background: #fee2e2; color: #c0392b; border-color: #c0392b; }
+  .src-action.open:hover { background: var(--accent-2); color: #fff; border-color: var(--accent-2); }
+
+  /* Add/Edit modal — borrows the existing modal-overlay/modal-box styles */
+  /* (declared inline in the suggest modal removed earlier — re-declare here) */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 26, 0.65);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: var(--paper);
+    border-radius: 10px;
+    padding: 28px 26px 24px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 92vh;
+    overflow-y: auto;
+    border-top: 4px solid var(--accent-1);
+  }
+  .modal-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink1);
+    margin-bottom: 4px;
+  }
+  .modal-sub {
+    font-size: 12px;
+    color: var(--ink3);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+  .modal-field { margin-bottom: 12px; }
+  .modal-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink2);
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .modal-field label .req { color: var(--accent-1); }
+  .modal-field input,
+  .modal-field select,
+  .modal-field textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    font-size: 13px;
+    background: #fff;
+    font-family: inherit;
+    color: var(--ink1);
+  }
+  .modal-field input:focus,
+  .modal-field select:focus,
+  .modal-field textarea:focus {
+    outline: 2px solid var(--accent-2);
+    outline-offset: -1px;
+  }
+  .modal-field textarea {
+    resize: vertical;
+    min-height: 60px;
+    font-family: inherit;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+  .modal-btn {
+    padding: 9px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    font-family: inherit;
+  }
+  .modal-btn.primary { background: var(--accent-1); color: #fff; }
+  .modal-btn.primary:hover { filter: brightness(1.1); }
+  .modal-btn.cancel {
+    background: transparent;
+    color: var(--ink3);
+    border: 1px solid var(--line);
+  }
+  .modal-btn.cancel:hover { background: var(--paper-2); }
+  .modal-note {
+    background: #fef3c7;
+    border-left: 3px solid var(--accent-4);
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: #6e4c1f;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .res-count-tag {
+    margin-left: 8px;
+    background: var(--paper-2);
+    color: var(--ink3);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─────────── EMBED VIEW (Pattern B for HTML tools) ─────────── */
+  .embed-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--paper);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+  }
+  .embed-overlay.show { display: flex; }
+  .embed-bar {
+    background: var(--ink1);
+    color: var(--paper);
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 2px solid var(--accent-4);
+  }
+  .embed-back {
+    background: var(--accent-4);
+    color: var(--ink1);
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .embed-back:hover { filter: brightness(1.05); }
+  .embed-title {
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+  .embed-open-new {
+    background: transparent;
+    color: var(--paper);
+    border: 1px solid #444;
+    padding: 5px 11px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    text-decoration: none;
+    margin-left: auto;
+  }
+  .embed-open-new:hover { background: #2c2c2c; }
+  .embed-frame {
+    flex: 1;
+    border: none;
+    width: 100%;
+    background: #fff;
+  }
+
+  /* ─────────── FOOTER ─────────── */
+  .footer {
+    background: var(--ink1);
+    color: #aaa;
+    padding: 22px 24px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.4px;
+  }
+  .footer a {
+    color: var(--accent-4);
+    text-decoration: none;
+    margin: 0 8px;
+  }
+  .footer a:hover { text-decoration: underline; }
+  .footer-brand {
+    color: var(--paper);
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  /* ─────────── RESPONSIVE ─────────── */
+  @media (max-width: 600px) {
+    .header { padding: 22px 16px 18px; }
+    .brand { gap: 10px; }
+    .brand-text { letter-spacing: 1.5px; }
+    .tagline-2 { font-size: 11px; letter-spacing: 1.8px; padding: 5px 12px; }
+    .tagline-3 { font-size: 10px; letter-spacing: 1.5px; }
+    .quote-bar { font-size: 12px; padding: 10px 16px; }
+    .stats-strip { padding: 12px 8px; }
+    .stat { padding: 0 14px; }
+    .stat-num { font-size: 18px; }
+    .main { padding: 28px 16px 40px; }
+    .section-head h2 { font-size: 16px; }
+    .modal-box { width: 92% !important; padding: 22px 18px !important; }
+  }
+
+  /* ─────────── RESOURCES SECTION ─────────── */
+  .resource-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .res-search {
+    flex: 1;
+    min-width: 180px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    font-size: 13px;
+    background: #fff;
+    font-family: inherit;
+    color: var(--ink1);
+  }
+  .res-search:focus { outline: 2px solid var(--accent-2); outline-offset: -1px; }
+  .res-cat-filter {
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    font-size: 13px;
+    background: #fff;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--ink1);
+  }
+  .btn-suggest {
+    background: var(--ink1);
+    color: var(--accent-4);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: inherit;
+  }
+  .btn-suggest:hover { filter: brightness(1.15); }
+
+  .resource-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .res-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 14px 14px 12px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .res-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.07);
+    border-color: var(--accent-2);
+  }
+  .res-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .res-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink1);
+    flex: 1;
+    line-height: 1.3;
+    word-break: break-word;
+  }
+  .res-name .ext {
+    color: var(--ink3);
+    font-weight: 400;
+    margin-left: 4px;
+    font-size: 11px;
+  }
+  .res-badges {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+  .res-cat {
+    background: var(--paper-2);
+    color: var(--ink2);
+    border: 1px solid var(--line);
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .res-tier {
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .res-tier.free      { background: #dcfce7; color: #166534; }
+  .res-tier.freemium  { background: #fef3c7; color: #854d0e; }
+  .res-tier.paid      { background: #fee2e2; color: #991b1b; }
+  .res-tier.signup    { background: #dbeafe; color: #1e40af; }
+  .res-desc {
+    font-size: 12px;
+    color: var(--ink3);
+    line-height: 1.45;
+    margin-bottom: 8px;
+    flex: 1;
+  }
+  .res-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10.5px;
+    color: var(--ink3);
+    border-top: 1px dashed var(--line);
+    padding-top: 7px;
+  }
+  .res-contributor {
+    letter-spacing: 0.3px;
+  }
+  .res-contributor b {
+    color: var(--accent-1);
+    font-weight: 700;
+  }
+  .res-link-arrow {
+    color: var(--accent-2);
+    font-weight: 700;
+    font-size: 11px;
+  }
+
+  /* ─────────── MODAL (Suggest a Resource) ─────────── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 26, 0.65);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: var(--paper);
+    border-radius: 10px;
+    padding: 28px 26px 24px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 92vh;
+    overflow-y: auto;
+    border-top: 4px solid var(--accent-1);
+  }
+  .modal-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink1);
+    margin-bottom: 4px;
+  }
+  .modal-sub {
+    font-size: 12px;
+    color: var(--ink3);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+  .modal-field {
+    margin-bottom: 12px;
+  }
+  .modal-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink2);
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .modal-field label .req { color: var(--accent-1); }
+  .modal-field input,
+  .modal-field select,
+  .modal-field textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    font-size: 13px;
+    background: #fff;
+    font-family: inherit;
+    color: var(--ink1);
+  }
+  .modal-field input:focus,
+  .modal-field select:focus,
+  .modal-field textarea:focus {
+    outline: 2px solid var(--accent-2);
+    outline-offset: -1px;
+  }
+  .modal-field textarea {
+    resize: vertical;
+    min-height: 60px;
+    font-family: inherit;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+  .modal-btn {
+    padding: 9px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    font-family: inherit;
+  }
+  .modal-btn.primary { background: var(--accent-1); color: #fff; }
+  .modal-btn.primary:hover { filter: brightness(1.1); }
+  .modal-btn.cancel { background: transparent; color: var(--ink3); border: 1px solid var(--line); }
+  .modal-btn.cancel:hover { background: var(--paper-2); }
+  .modal-note {
+    background: #fef3c7;
+    border-left: 3px solid #d4a820;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: #6e4c1f;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+  .res-count-tag {
+    margin-left: 8px;
+    background: var(--paper-2);
+    color: var(--ink3);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─────────── Q&A HUB ─────────── */
+  .qa-banner {
+    background: linear-gradient(135deg, var(--ink1) 0%, #2c2218 100%);
+    color: var(--paper);
+    padding: 18px 22px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .qa-banner-text {
+    font-size: 13px;
+    line-height: 1.5;
+    flex: 1;
+    min-width: 220px;
+  }
+  .qa-banner-text b { color: var(--accent-4); }
+  .qa-banner-text .small { color: #aaa; font-size: 11px; display: block; margin-top: 4px; letter-spacing: 0.3px; }
+  .qa-signin-btn {
+    background: #fff;
+    color: var(--ink1);
+    border: none;
+    padding: 9px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    letter-spacing: 0.3px;
+  }
+  .qa-signin-btn:hover { box-shadow: 0 2px 8px rgba(255,255,255,0.15); }
+  .qa-signin-btn .gicon {
+    width: 16px; height: 16px;
+    background: conic-gradient(from 0deg, #ea4335, #fbbc04, #34a853, #4285f4, #ea4335);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .qa-user-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    padding: 5px 10px 5px 5px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+  .qa-user-avatar {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--accent-1);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .qa-user-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+  .qa-user-name { font-weight: 700; color: var(--ink1); }
+  .qa-user-email { color: var(--ink3); font-size: 11px; }
+  .qa-signout {
+    background: transparent;
+    color: var(--ink3);
+    border: none;
+    cursor: pointer;
+    font-size: 11px;
+    text-decoration: underline;
+    padding: 0 2px;
+    font-family: inherit;
+  }
+  .qa-signout:hover { color: var(--accent-1); }
+
+  .qa-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .qa-controls .res-search { flex: 1; }
+  .qa-ask-btn {
+    background: var(--accent-1);
+    color: #fff;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: inherit;
+  }
+  .qa-ask-btn:hover { filter: brightness(1.1); }
+  .qa-ask-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+  .qa-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+  .qa-q-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .qa-q-card:hover { border-color: var(--accent-2); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+  .qa-q-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+    text-align: center;
+    min-width: 56px;
+  }
+  .qa-stat-block {
+    background: var(--paper-2);
+    border-radius: 4px;
+    padding: 5px 4px;
+    font-size: 10px;
+    color: var(--ink3);
+    letter-spacing: 0.3px;
+  }
+  .qa-stat-block .num {
+    display: block;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--ink1);
+    line-height: 1.1;
+  }
+  .qa-stat-block.answered .num { color: var(--accent-3); }
+  .qa-stat-block.resolved {
+    background: #dcfce7;
+    color: #166534;
+  }
+  .qa-stat-block.resolved .num { color: #166534; }
+  .qa-q-body { flex: 1; min-width: 0; }
+  .qa-q-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink1);
+    margin-bottom: 4px;
+    line-height: 1.35;
+  }
+  .qa-q-title.resolved::before {
+    content: '✓ ';
+    color: var(--accent-3);
+    font-weight: 800;
+  }
+  .qa-q-snippet {
+    font-size: 12px;
+    color: var(--ink3);
+    margin-bottom: 6px;
+    line-height: 1.45;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .qa-q-meta {
+    font-size: 10.5px;
+    color: var(--ink3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    align-items: center;
+  }
+  .qa-q-meta b { color: var(--ink1); font-weight: 700; }
+  .qa-q-meta .qa-cat-pill {
+    background: var(--paper-2);
+    color: var(--ink2);
+    padding: 1px 7px;
+    border-radius: 3px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    border: 1px solid var(--line);
+  }
+
+  /* Question detail view */
+  .qa-detail-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 2500;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  .qa-detail-overlay.show { display: flex; }
+  .qa-detail-box {
+    background: var(--paper);
+    border-radius: 10px;
+    padding: 0;
+    max-width: 760px;
+    width: 100%;
+    max-height: 92vh;
+    overflow: hidden;
+    border-top: 4px solid var(--accent-1);
+    display: flex;
+    flex-direction: column;
+  }
+  .qa-detail-header {
+    background: #fff;
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .qa-detail-close {
+    float: right;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--ink3);
+    line-height: 1;
+    padding: 0 6px;
+  }
+  .qa-detail-close:hover { color: var(--accent-1); }
+  .qa-detail-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink1);
+    margin-bottom: 8px;
+    padding-right: 30px;
+    line-height: 1.35;
+  }
+  .qa-detail-meta {
+    font-size: 11.5px;
+    color: var(--ink3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .qa-detail-meta b { color: var(--ink1); }
+  .qa-detail-body {
+    padding: 16px 22px;
+    flex: 1;
+    overflow-y: auto;
+    background: var(--paper);
+  }
+  .qa-detail-q-text {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    font-size: 13.5px;
+    color: var(--ink1);
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+  .qa-answers-head {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink1);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin: 4px 0 10px;
+  }
+  .qa-answer {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .qa-answer.helpful {
+    border-color: var(--accent-3);
+    background: #f0fdf4;
+  }
+  .qa-answer-text {
+    font-size: 13px;
+    color: var(--ink1);
+    line-height: 1.55;
+    margin-bottom: 8px;
+    white-space: pre-wrap;
+  }
+  .qa-answer-meta {
+    font-size: 10.5px;
+    color: var(--ink3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .qa-answer-meta b { color: var(--ink1); }
+  .qa-helpful-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 3px 9px;
+    cursor: pointer;
+    font-size: 10.5px;
+    color: var(--ink3);
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .qa-helpful-btn:hover { border-color: var(--accent-3); color: var(--accent-3); }
+  .qa-helpful-btn.voted {
+    background: #dcfce7;
+    border-color: var(--accent-3);
+    color: #166534;
+    font-weight: 700;
+  }
+  .qa-helpful-badge {
+    background: var(--accent-3);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    position: absolute;
+    top: -8px;
+    left: 12px;
+  }
+  .qa-answer-form {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 14px;
+    margin-top: 10px;
+  }
+  .qa-answer-form textarea {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--ink1);
+    min-height: 80px;
+    resize: vertical;
+    background: var(--paper);
+  }
+  .qa-answer-form textarea:focus { outline: 2px solid var(--accent-2); outline-offset: -1px; }
+  .qa-resolve-btn {
+    background: var(--accent-3);
+    color: #fff;
+    border: none;
+    padding: 5px 11px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: inherit;
+    margin-left: auto;
+  }
+  .qa-resolve-btn:hover { filter: brightness(1.1); }
+  .qa-resolve-btn.resolved { background: var(--ink3); cursor: default; }
+
+  .qa-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--ink3);
+    font-size: 13px;
+    font-style: italic;
+    background: var(--paper-2);
+    border-radius: 8px;
+  }
+  .qa-empty .em-icon { font-size: 36px; margin-bottom: 8px; opacity: 0.5; }
+
+  .qa-domain-error {
+    background: #fee2e2;
+    border-left: 3px solid #c0392b;
+    padding: 12px 14px;
+    border-radius: 5px;
+    color: #991b1b;
+    font-size: 12.5px;
+    line-height: 1.55;
+    margin-top: 10px;
+  }
+  .qa-demo-mode {
+    background: #fef3c7;
+    border-left: 3px solid #d4a820;
+    padding: 9px 12px;
+    border-radius: 4px;
+    font-size: 11.5px;
+    color: #6e4c1f;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .qa-demo-mode b { font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ MOTIVATIONAL QUOTE BAR ═══════════════════ -->
+<div class="quote-bar">
+  <div class="quote-text" id="quoteText">
+    Loading inspiration…
+  </div>
+</div>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header class="header">
+  <div class="brand">
+    <div class="brand-mark">PR</div>
+    <div class="brand-text">PROCUREMENT RESOURCE <span class="star">*</span> TOOL-KIT</div>
+  </div>
+  <div class="tagline">Analytical Toolkit · One place for every tool</div>
+  <div class="tagline-2">Built by analysts, for analysts</div>
+  <div class="tagline-3">Designed by <span class="by">Deepak Sharma</span> · Built with AI</div>
+</header>
+
+<!-- ═══════════════════ STATS STRIP ═══════════════════ -->
+<div class="stats-strip">
+  <div class="stat">
+    <div class="stat-num" id="statTotal">—</div>
+    <div class="stat-lbl">Total Tools</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="statLive">—</div>
+    <div class="stat-lbl">Live</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="statBeta">—</div>
+    <div class="stat-lbl">Beta</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="statSoon">—</div>
+    <div class="stat-lbl">Coming Soon</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="statSrcLinks">—</div>
+    <div class="stat-lbl">My Source Links</div>
+  </div>
+</div>
+
+<!-- ═══════════════════ MAIN ═══════════════════ -->
+<main class="main">
+
+  <!-- ANALYTICS TOOLS -->
+  <div class="section-head">
+    <div class="section-num">01</div>
+    <h2>Analytics Tools</h2>
+  </div>
+  <div class="tool-grid" id="grid-analytics"></div>
+
+  <!-- DOCUMENT TOOLS -->
+  <div class="section-head">
+    <div class="section-num">02</div>
+    <h2>Document Tools</h2>
+  </div>
+  <div class="tool-grid" id="grid-document"></div>
+
+  <!-- SOURCE LINKS (per-user, browser-saved) -->
+  <div class="section-head">
+    <div class="section-num">03</div>
+    <h2>Source Links <span class="res-count-tag" id="srcCountTag">— links</span></h2>
+  </div>
+
+  <div class="src-controls">
+    <input type="text" class="src-search" id="srcSearch" placeholder="🔍 Search by name, URL, or notes…">
+    <select class="src-cat-filter" id="srcCatFilter">
+      <option value="all">All categories</option>
+    </select>
+    <button class="src-add-btn" id="srcAddBtn">+ Add a link</button>
+  </div>
+
+  <div class="src-empty-hint" id="srcEmptyHint" hidden>
+    <div class="em-ico">🔖</div>
+    <div><b>No links yet.</b> Click <b>+ Add a link</b> to bookmark a website. Your links are saved privately in this browser only.</div>
+  </div>
+
+  <div class="src-grid" id="srcGrid"></div>
+
+  <!-- ENGAGEMENT / FUN -->
+  <div class="section-head">
+    <div class="section-num">04</div>
+    <h2>Engagement &amp; Discovery</h2>
+  </div>
+  <div class="tool-grid" id="grid-fun"></div>
+
+</main>
+
+
+<!-- ═══════════════════ ADD / EDIT SOURCE LINK MODAL ═══════════════════ -->
+<div class="modal-overlay" id="srcModal">
+  <div class="modal-box">
+    <div class="modal-title" id="srcModalTitle">Add a source link</div>
+    <div class="modal-sub">Bookmark a website you reference often. Saved privately in this browser only.</div>
+
+    <div class="modal-field">
+      <label>Site URL <span class="req">*</span></label>
+      <input type="url" id="srcUrl" placeholder="https://www.lme.com" required>
+    </div>
+    <div class="modal-field">
+      <label>Display name <span class="req">*</span></label>
+      <input type="text" id="srcName" placeholder="e.g. London Metal Exchange" required>
+    </div>
+    <div class="modal-field">
+      <label>Category</label>
+      <select id="srcCategory">
+        <option value="Price Data">Price Data</option>
+        <option value="Charts &amp; Tools">Charts &amp; Tools</option>
+        <option value="Government / Statistics">Government / Statistics</option>
+        <option value="News">News</option>
+        <option value="India-Specific">India-Specific</option>
+        <option value="Industry / Trade">Industry / Trade</option>
+        <option value="Personal">Personal</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <label>Notes <span style="font-weight:400;color:var(--ink3);font-size:10px;">(optional)</span></label>
+      <textarea id="srcNotes" placeholder="What's this site useful for? Any login tips? Specific section to bookmark?"></textarea>
+    </div>
+
+    <div class="modal-note">
+      🔒 Your links are stored only in this browser's local storage. They aren't visible to other users and don't sync across devices. To back up, use the Export button on the main page.
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="srcCancel">Cancel</button>
+      <button class="modal-btn primary" id="srcSave">Save link</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ EMBED OVERLAY (Pattern B) ═══════════════════ -->
+<div class="embed-overlay" id="embedOverlay">
+  <div class="embed-bar">
+    <button class="embed-back" id="embedBack">← Back to Bucket</button>
+    <div class="embed-title" id="embedTitle">—</div>
+    <a class="embed-open-new" id="embedOpenNew" href="#" target="_blank" rel="noopener">↗ Open in new tab</a>
+  </div>
+  <iframe class="embed-frame" id="embedFrame" src="about:blank"></iframe>
+</div>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="footer">
+  <div class="footer-brand">Procurement Resource Tool-Kit</div>
+  <div>Designed by Deepak Sharma · Built with AI · v2.0 · 2026</div>
+  <div style="margin-top:6px;">
+    <a href="https://github.com/deepak4sharma" target="_blank" rel="noopener">GitHub</a>·
+    <a href="mailto:deepak4sharma@example.com">Contact</a>
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// MOTIVATIONAL QUOTES — rotates every 10 seconds
+// ═══════════════════════════════════════════════════════════════════════════
+const QUOTES = [
+  { t: "Without data, you're just another person with an opinion.", a: "W. Edwards Deming" },
+  { t: "The goal is to turn data into information, and information into insight.", a: "Carly Fiorina" },
+  { t: "If we have data, let's look at data. If all we have are opinions, let's go with mine.", a: "Jim Barksdale" },
+  { t: "In God we trust. All others must bring data.", a: "W. Edwards Deming" },
+  { t: "Errors using inadequate data are much less than those using no data at all.", a: "Charles Babbage" },
+  { t: "Data is the new oil. It's valuable, but if unrefined it cannot really be used.", a: "Clive Humby" },
+  { t: "The best way to predict the future is to create it.", a: "Peter Drucker" },
+  { t: "Quality is never an accident; it is always the result of intelligent effort.", a: "John Ruskin" },
+  { t: "Numbers have an important story to tell. They rely on you to give them a clear and convincing voice.", a: "Stephen Few" },
+  { t: "Torture the data, and it will confess to anything.", a: "Ronald Coase" },
+  { t: "Statistics is the grammar of science.", a: "Karl Pearson" },
+  { t: "It is a capital mistake to theorize before one has data.", a: "Sherlock Holmes" },
+  { t: "Information is the oil of the 21st century, and analytics is the combustion engine.", a: "Peter Sondergaard" },
+  { t: "Excellence is the gradual result of always striving to do better.", a: "Pat Riley" },
+  { t: "Doing it right is better than doing it fast.", a: "Anonymous" },
+  { t: "The function of good software is to make the complex appear to be simple.", a: "Grady Booch" },
+  { t: "Simplicity is the ultimate sophistication.", a: "Leonardo da Vinci" },
+  { t: "Innovation distinguishes between a leader and a follower.", a: "Steve Jobs" },
+  { t: "First, solve the problem. Then, write the code.", a: "John Johnson" },
+  { t: "Knowledge is of no value unless you put it into practice.", a: "Anton Chekhov" },
+  { t: "What gets measured gets managed.", a: "Peter Drucker" },
+  { t: "Not everything that counts can be counted, and not everything that can be counted counts.", a: "Albert Einstein" },
+  { t: "The art of being wise is the art of knowing what to overlook.", a: "William James" },
+  { t: "Every great analytics journey begins with a single question.", a: "—" },
+  { t: "Believe you can and you're halfway there.", a: "Theodore Roosevelt" },
+  { t: "Hard work beats talent when talent doesn't work hard.", a: "Tim Notke" },
+  { t: "Don't watch the clock; do what it does. Keep going.", a: "Sam Levenson" },
+  { t: "The expert in anything was once a beginner.", a: "Helen Hayes" },
+  { t: "Build the thing you wish existed.", a: "—" },
+  { t: "Done is better than perfect — then iterate.", a: "Sheryl Sandberg" }
+];
+
+let qIdx = Math.floor(Math.random() * QUOTES.length);
+const qEl = document.getElementById('quoteText');
+
+function showQuote(idx) {
+  const q = QUOTES[idx];
+  qEl.innerHTML = `"${q.t}"<span class="quote-author">— ${q.a}</span>`;
+}
+
+function rotateQuote() {
+  qEl.classList.add('fading');
+  setTimeout(() => {
+    qIdx = (qIdx + 1) % QUOTES.length;
+    showQuote(qIdx);
+    qEl.classList.remove('fading');
+  }, 450);
+}
+
+showQuote(qIdx);
+setInterval(rotateQuote, 10000); // every 10 seconds
+
+// ═══════════════════════════════════════════════════════════════════════════
+// TOOL CATALOG
+// ═══════════════════════════════════════════════════════════════════════════
+// Each tool entry:
+//   id:       unique slug
+//   name:     display name
+//   desc:     short description
+//   icon:     emoji
+//   color:    accent color (CSS variable name or hex)
+//   category: 'analytics' | 'document' | 'fun'
+//   url:      public URL to open the tool (null if 'soon')
+//   embed:    true if it can be loaded in an iframe (HTML tools only).
+//             Streamlit / external sites usually block iframe embedding,
+//             so default to false unless we know it works.
+//   status:   'live' | 'beta' | 'soon' | 'maint' (under maintenance)
+
+const TOOLS = [
+  // ─── Analytics ───
+  {
+    id: 'analytical-tool',
+    name: 'Procurement Resource Analytical Tool',
+    desc: 'Multi-series time-series correlation, seasonality (MoM + YoY), summary stats, scatter explorer.',
+    icon: '📊',
+    color: 'var(--accent-1)',
+    category: 'analytics',
+    url: 'https://deepak4sharma.github.io/Procurement-Research-Analytical-Tool/',
+    embed: true,
+    status: 'live'
+  },
+  {
+    id: 'time-series',
+    name: 'Time Series Forecasting',
+    desc: 'Trend, seasonality decomposition, ARIMA-style forecasting, anomaly detection.',
+    icon: '📈',
+    color: 'var(--accent-2)',
+    category: 'analytics',
+    url: 'https://github.com/deepak4sharma/Deepak_Time_Series_tool.py',
+    embed: false,
+    status: 'maint'
+  },
+
+  // ─── Document Tools ───
+  {
+    id: 'pdf-merger',
+    name: 'PDF Merger',
+    desc: 'Merge multiple PDFs · pick page ranges · drag to reorder · visual page picker. Fully in-browser.',
+    icon: '📄',
+    color: 'var(--accent-3)',
+    category: 'document',
+    url: 'https://deepak4sharma.github.io/Procurement-Resource-PDF-Merger/',
+    embed: true,
+    status: 'live'
+  },
+  {
+    id: 'price-upload',
+    name: 'Price Upload Tool',
+    desc: 'Convert messy source price files into the standardized upload format. Editable IDs, date filter, multi-format download.',
+    icon: '📈',
+    color: 'var(--accent-1)',
+    category: 'document',
+    url: 'https://deepak4sharma.github.io/procurement-price-tool/',
+    embed: true,
+    status: 'live'
+  },
+  {
+    id: 'quick-price-tool',
+    name: 'Quick Price Upload Tool',
+    desc: 'Rapidly enter and format commodity price data for upload. Lightweight, fast, and fully in-browser.',
+    icon: '⚡',
+    color: 'var(--accent-4)',
+    category: 'document',
+    url: 'https://deepak4sharma.github.io/Procurement-Resource-Quick-Price-Upload/',
+    embed: true,
+    status: 'live'
+  },
+  {
+    id: 'word-to-pdf',
+    name: 'Word to PDF Converter',
+    desc: 'Convert .docx files into PDF. Drag and drop, batch convert, fully in-browser — files never leave your device.',
+    icon: '📝',
+    color: 'var(--accent-2)',
+    category: 'document',
+    url: 'https://deepak4sharma.github.io/Word-to-PDF/',
+    embed: true,
+    status: 'live'
+  },
+
+  // ─── Engagement ───
+  {
+    id: 'analyst-quiz',
+    name: 'Analyst Persona Quiz',
+    desc: 'A short questionnaire that reveals what kind of analyst you are. Fun & shareable.',
+    icon: '🎯',
+    color: 'var(--accent-4)',
+    category: 'fun',
+    url: 'https://deepak4sharma.github.io/ANALYST-PERSONA-QUIZ/',
+    embed: true,
+    status: 'live'
+  },
+  {
+    id: 'water-reminder',
+    name: 'Water Reminder',
+    desc: 'Daily hydration tracker · gentle reminders to keep you drinking water through the day.',
+    icon: '💧',
+    color: 'var(--accent-6)',
+    category: 'fun',
+    url: 'https://deepak4sharma.github.io/Water-Reminder/',
+    embed: true,
+    status: 'live'
+  }
+];
+
+// ═══════════════════════════════════════════════════════════════════════════
+// RENDER GRIDS
+// ═══════════════════════════════════════════════════════════════════════════
+const STATUS_LABEL = {
+  live:  { label: 'Live',          cls: 'live'  },
+  beta:  { label: 'Beta',          cls: 'beta'  },
+  soon:  { label: 'Coming Soon',   cls: 'soon'  },
+  maint: { label: 'Under Maint.',  cls: 'maint' }
+};
+const CAT_LABEL = {
+  analytics:  'Analytics',
+  document:   'Document',
+  fun:        'Engagement'
+};
+
+function renderTools() {
+  ['analytics','document','fun'].forEach(cat => {
+    const el = document.getElementById('grid-' + cat);
+    el.innerHTML = '';
+    const inCat = TOOLS.filter(t => t.category === cat);
+    if(inCat.length === 0) {
+      el.innerHTML = '<div style="color:var(--ink3);font-size:13px;font-style:italic;padding:8px 4px;">No tools in this category yet.</div>';
+      return;
+    }
+    inCat.forEach(t => el.appendChild(renderCard(t)));
+  });
+  // Stats
+  document.getElementById('statTotal').textContent = TOOLS.length;
+  document.getElementById('statLive').textContent  = TOOLS.filter(t=>t.status==='live').length;
+  document.getElementById('statBeta').textContent  = TOOLS.filter(t=>t.status==='beta').length;
+  document.getElementById('statSoon').textContent  = TOOLS.filter(t=>['soon','maint'].includes(t.status)).length;
+  const sr = document.getElementById('statSrcLinks');
+  if(sr) sr.textContent = loadSrcLinks().length;
+}
+
+function renderCard(t) {
+  const st = STATUS_LABEL[t.status];
+  const card = document.createElement('div');
+  card.className = 'tool-card';
+  card.style.setProperty('--card-color', t.color);
+
+  const isClickable = !!t.url;
+  const launchLabel = t.embed ? '▶ Launch tool' : '↗ Open tool';
+  const launchAction = t.embed
+    ? `data-embed-id="${t.id}"`
+    : `data-external-url="${t.url}"`;
+
+  card.innerHTML = `
+    <div class="tool-icon">${t.icon}</div>
+    <div class="tool-name">${t.name}</div>
+    <div class="tool-desc">${t.desc}</div>
+    <div class="tool-meta">
+      <span class="badge ${st.cls}">${st.label}</span>
+      <span class="badge cat">${CAT_LABEL[t.category]}</span>
+    </div>
+    <div class="tool-actions">
+      <button class="btn btn-primary" ${isClickable ? launchAction : 'disabled'}>
+        ${isClickable ? launchLabel : '🔒 Not available yet'}
+      </button>
+      ${isClickable && t.embed ? `<a class="btn btn-secondary" href="${t.url}" target="_blank" rel="noopener" title="Open in new tab">↗</a>` : ''}
+    </div>
+  `;
+  return card;
+}
+
+renderTools();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CARD CLICK HANDLERS — Pattern A (new tab) + Pattern B (embed)
+// ═══════════════════════════════════════════════════════════════════════════
+document.addEventListener('click', e => {
+  const embedBtn = e.target.closest('[data-embed-id]');
+  if(embedBtn) {
+    const id = embedBtn.dataset.embedId;
+    const tool = TOOLS.find(t => t.id === id);
+    if(tool) openEmbed(tool);
+    return;
+  }
+  const externalBtn = e.target.closest('[data-external-url]');
+  if(externalBtn) {
+    window.open(externalBtn.dataset.externalUrl, '_blank', 'noopener');
+    return;
+  }
+});
+
+function openEmbed(tool) {
+  document.getElementById('embedTitle').textContent = tool.name;
+  document.getElementById('embedFrame').src = tool.url;
+  document.getElementById('embedOpenNew').href = tool.url;
+  document.getElementById('embedOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('embedBack').addEventListener('click', () => {
+  document.getElementById('embedOverlay').classList.remove('show');
+  document.getElementById('embedFrame').src = 'about:blank';
+  document.body.style.overflow = '';
+});
+
+// ESC key closes embed
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') {
+    const ov = document.getElementById('embedOverlay');
+    if(ov.classList.contains('show')) {
+      ov.classList.remove('show');
+      document.getElementById('embedFrame').src = 'about:blank';
+      document.body.style.overflow = '';
+    }
+    const sm = document.getElementById('srcModal');
+    if(sm.classList.contains('show')) sm.classList.remove('show');
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SOURCE LINKS — per-user bookmarks stored in browser localStorage
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// Storage shape:
+//   localStorage['imarc-bucket:sourceLinks'] = JSON array of {
+//     id, url, name, category, notes, createdAt
+//   }
+//
+// Notes:
+// - 100% private. Each browser keeps its own list. Nothing is uploaded.
+// - Favicons are fetched from Google's free favicon endpoint, so they only
+//   require an internet connection at view time. The site itself is never
+//   contacted (no CORS issues, no scraping).
+
+const SRC_KEY = 'procurement-resource:sourceLinks';
+const SRC_KEY_LEGACY = 'imarc-bucket:sourceLinks';
+
+function loadSrcLinks() {
+  try {
+    // Try new key first
+    let raw = localStorage.getItem(SRC_KEY);
+    if(!raw) {
+      // Fall back to legacy IMARC Bucket key and migrate forward so the
+      // user's existing bookmarks survive the rebrand
+      raw = localStorage.getItem(SRC_KEY_LEGACY);
+      if(raw) {
+        try {
+          localStorage.setItem(SRC_KEY, raw);
+          // Leave legacy key in place in case the user opens the old version
+          // somewhere else; we just won't write to it anymore.
+        } catch(_) {}
+      }
+    }
+    if(!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  } catch(_) { return []; }
+}
+
+function saveSrcLinks(arr) {
+  try { localStorage.setItem(SRC_KEY, JSON.stringify(arr)); }
+  catch(e) { alert('Could not save link — your browser storage may be full or restricted.'); }
+}
+
+function srcGetDomain(url) {
+  try { return new URL(url).hostname.replace(/^www\./, ''); }
+  catch { return ''; }
+}
+
+function srcFaviconUrl(url) {
+  // Google's S2 favicon service: free, no auth, always works.
+  // Fallback to a plain emoji if it ever fails.
+  const d = srcGetDomain(url);
+  if(!d) return '';
+  return `https://www.google.com/s2/favicons?sz=64&domain=${encodeURIComponent(d)}`;
+}
+
+function srcEscape(s) {
+  if(s === null || s === undefined) return '';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function srcRender() {
+  const links = loadSrcLinks();
+  const search = (document.getElementById('srcSearch').value || '').toLowerCase().trim();
+  const catSel = document.getElementById('srcCatFilter').value;
+
+  // Populate category filter (preserve current selection)
+  const catSelEl = document.getElementById('srcCatFilter');
+  const cats = [...new Set(links.map(l => l.category).filter(Boolean))].sort();
+  const currentVal = catSelEl.value;
+  catSelEl.innerHTML = '<option value="all">All categories</option>'
+    + cats.map(c => `<option value="${srcEscape(c)}">${srcEscape(c)}</option>`).join('');
+  if(cats.includes(currentVal)) catSelEl.value = currentVal;
+
+  // Filter links
+  const filtered = links.filter(l => {
+    if(catSel !== 'all' && l.category !== catSel) return false;
+    if(!search) return true;
+    return (l.name + ' ' + l.url + ' ' + (l.notes || '') + ' ' + (l.category || '')).toLowerCase().includes(search);
+  });
+
+  // Update count badge
+  const tag = document.getElementById('srcCountTag');
+  if(tag) {
+    tag.textContent = filtered.length === links.length
+      ? `${links.length} links`
+      : `${filtered.length} of ${links.length} links`;
+  }
+  // Keep top stats strip in sync
+  const statEl = document.getElementById('statSrcLinks');
+  if(statEl) statEl.textContent = links.length;
+
+  const grid = document.getElementById('srcGrid');
+  const empty = document.getElementById('srcEmptyHint');
+  if(links.length === 0) {
+    grid.innerHTML = '';
+    empty.hidden = false;
+    return;
+  }
+  empty.hidden = true;
+  if(filtered.length === 0) {
+    grid.innerHTML = `<div class="src-empty-hint" style="grid-column:1/-1"><div class="em-ico">🔍</div>No links match your filter. Try clearing the search or category.</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(l => {
+    const fav = srcFaviconUrl(l.url);
+    const dom = srcGetDomain(l.url);
+    const escUrl = srcEscape(l.url);
+    return `
+      <div class="src-card">
+        <div class="src-card-head">
+          <div class="src-favicon">
+            ${fav ? `<img src="${escUrl ? srcEscape(fav) : ''}" alt="" onerror="this.outerHTML='<span class=\\'fallback\\'>🔗</span>'">` : `<span class="fallback">🔗</span>`}
+          </div>
+          <div class="src-card-title">
+            <div class="src-name">${srcEscape(l.name)}</div>
+            <div class="src-domain">${srcEscape(dom)}</div>
+          </div>
+        </div>
+        ${l.notes ? `<div class="src-notes">${srcEscape(l.notes)}</div>` : '<div class="src-notes" style="opacity:0.4;font-style:italic">No notes</div>'}
+        <div class="src-meta">
+          ${l.category ? `<span class="src-cat-pill">${srcEscape(l.category)}</span>` : '<span></span>'}
+          <div class="src-card-actions">
+            <a class="src-action open" href="${escUrl}" target="_blank" rel="noopener noreferrer" title="Open in new tab">↗</a>
+            <button class="src-action edit" data-id="${srcEscape(l.id)}" title="Edit">✎</button>
+            <button class="src-action del"  data-id="${srcEscape(l.id)}" title="Delete">🗑</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Wire edit/delete buttons
+  grid.querySelectorAll('.src-action.edit').forEach(b => {
+    b.addEventListener('click', () => srcOpenModal(b.dataset.id));
+  });
+  grid.querySelectorAll('.src-action.del').forEach(b => {
+    b.addEventListener('click', () => srcDeleteLink(b.dataset.id));
+  });
+}
+
+// Modal handling
+let _editingId = null;
+
+function srcOpenModal(editId) {
+  _editingId = editId || null;
+  const titleEl = document.getElementById('srcModalTitle');
+  if(editId) {
+    const links = loadSrcLinks();
+    const l = links.find(x => x.id === editId);
+    if(!l) return;
+    titleEl.textContent = 'Edit source link';
+    document.getElementById('srcUrl').value = l.url;
+    document.getElementById('srcName').value = l.name;
+    document.getElementById('srcCategory').value = l.category || 'Other';
+    document.getElementById('srcNotes').value = l.notes || '';
+  } else {
+    titleEl.textContent = 'Add a source link';
+    document.getElementById('srcUrl').value = '';
+    document.getElementById('srcName').value = '';
+    document.getElementById('srcCategory').value = 'Price Data';
+    document.getElementById('srcNotes').value = '';
+  }
+  document.getElementById('srcModal').classList.add('show');
+}
+
+function srcCloseModal() {
+  document.getElementById('srcModal').classList.remove('show');
+  _editingId = null;
+}
+
+function srcSaveLink() {
+  const url = document.getElementById('srcUrl').value.trim();
+  const name = document.getElementById('srcName').value.trim();
+  const category = document.getElementById('srcCategory').value;
+  const notes = document.getElementById('srcNotes').value.trim();
+
+  if(!url || !name) { alert('Please fill in both the URL and the display name.'); return; }
+  // Basic URL validation
+  try { new URL(url); }
+  catch { alert('That URL doesn\'t look right. Make sure it starts with https:// or http://'); return; }
+
+  const links = loadSrcLinks();
+  if(_editingId) {
+    const idx = links.findIndex(x => x.id === _editingId);
+    if(idx >= 0) {
+      links[idx] = { ...links[idx], url, name, category, notes };
+    }
+  } else {
+    links.unshift({
+      id: 'src-' + Date.now() + '-' + Math.random().toString(36).slice(2,7),
+      url, name, category, notes,
+      createdAt: Date.now()
+    });
+  }
+  saveSrcLinks(links);
+  srcCloseModal();
+  srcRender();
+}
+
+function srcDeleteLink(id) {
+  if(!confirm('Delete this link? It can\'t be undone.')) return;
+  const links = loadSrcLinks().filter(x => x.id !== id);
+  saveSrcLinks(links);
+  srcRender();
+}
+
+// Wire up controls
+document.getElementById('srcAddBtn').addEventListener('click', () => srcOpenModal(null));
+document.getElementById('srcCancel').addEventListener('click', srcCloseModal);
+document.getElementById('srcSave').addEventListener('click', srcSaveLink);
+document.getElementById('srcSearch').addEventListener('input', srcRender);
+document.getElementById('srcCatFilter').addEventListener('change', srcRender);
+document.getElementById('srcModal').addEventListener('click', e => {
+  if(e.target.id === 'srcModal') srcCloseModal();
+});
+
+// Initial render
+srcRender();
+
+</script>
+</body>
+</html>
